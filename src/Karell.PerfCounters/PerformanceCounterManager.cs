@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Karell.PerfCounters.Properties;
 
 namespace Karell.PerfCounters
 {
@@ -9,8 +10,10 @@ namespace Karell.PerfCounters
     {
         private readonly CounterCreationDataCollection _collection =
             new CounterCreationDataCollection();
+
         private readonly Dictionary<string, CounterCreationData> _items =
             new Dictionary<string, CounterCreationData>();
+
         private readonly string _categoryName;
         private readonly string _categoryHelp;
 
@@ -23,7 +26,7 @@ namespace Karell.PerfCounters
         public void RegisterCounter(string counterName, string helpString, PerformanceCounterType performanceCounterType)
         {
             if (_items.ContainsKey(counterName))
-                throw new ArgumentException("Counter name already exists");
+                throw new ArgumentException(Resources.CounterNameAlreadyExists);
 
             CounterCreationData counter =
                 new CounterCreationData
@@ -83,7 +86,7 @@ namespace Karell.PerfCounters
         {
             if (_items.ContainsKey(counterName))
                 return new PerformanceCounter(_categoryName, counterName, false);
-            throw new ArgumentException("Counter name does not exist");
+            throw new ArgumentException(Resources.CounterNameDoesNotExist);
         }
     }
 }
