@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,13 +8,18 @@ namespace Karell.PerfCounters.Tests
     [TestClass]
     public class UnitTest1
     {
+        private const string CategoryName = "Test Multi Counter Category";
+        private const string CategoryHelp = "Test Category help";
+        private const string CounterName = "Test Counter";
+        private const string CounterHelp = "Test Counter Help String";
+
         [TestMethod]
         public void TestMethod1()
         {
-            var pm = new PerformanceCounterManager("Multi Counter Category", "Category help");
-            pm.RegisterCounter("Counter1", "help string1", PerformanceCounterType.NumberOfItems64);
+            var pm = new PerformanceCounterManager(CategoryName, CategoryHelp);
+            pm.RegisterCounter(CounterName, CounterHelp, PerformanceCounterType.NumberOfItems64);
             pm.RegisterCounters();
-            Do2("Counter1", pm);
+            Do2(CounterName, pm);
             pm.DeregisterCounters();
         }
 
