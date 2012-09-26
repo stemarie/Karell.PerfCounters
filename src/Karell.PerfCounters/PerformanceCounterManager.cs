@@ -22,6 +22,9 @@ namespace Karell.PerfCounters
 
         public void RegisterCounter(string counterName, string helpString, PerformanceCounterType performanceCounterType)
         {
+            if (_items.ContainsKey(counterName))
+                throw new ArgumentException("Counter name already exists");
+
             CounterCreationData counter =
                 new CounterCreationData
                     {
@@ -57,9 +60,17 @@ namespace Karell.PerfCounters
             return false;
         }
 
-        public void DeregisterCounters()
+        public bool DeregisterCounters()
         {
-            PerformanceCounterCategory.Delete(_categoryName);
+            try
+            {
+                PerformanceCounterCategory.Delete(_categoryName);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public void UpdateCounters()
