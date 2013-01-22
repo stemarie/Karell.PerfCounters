@@ -40,10 +40,20 @@ namespace Karell.PerfCounters
             _items.Add(counterName, counter);
         }
 
+        public void RegisterCounterIfNotExist(string counterName, string helpString,
+                                              PerformanceCounterType performanceCounter)
+        {
+            if (!_items.ContainsKey(counterName))
+                RegisterCounter(counterName, helpString, performanceCounter);
+        }
+
         public void DeregisterCounter(string counterName)
         {
-            _collection.Remove(_items[counterName]);
-            _items.Remove(counterName);
+            if (_items.ContainsKey(counterName))
+            {
+                _collection.Remove(_items[counterName]);
+                _items.Remove(counterName);
+            }
         }
 
         public IList<string> CounterNames
